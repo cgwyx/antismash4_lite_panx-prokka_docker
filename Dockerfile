@@ -60,5 +60,14 @@ RUN apt-get install -y curl grep sed dpkg && \
     
 ENV PATH /opt/conda/bin:$PATH
 
-ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "/bin/bash" ]    
+#ENTRYPOINT [ "/usr/bin/tini", "--" ]
+#CMD [ "/bin/bash" ]    
+
+
+RUN conda update --all -y&&\
+         conda config --add channels r &&\
+         conda config --add channels bioconda &&\
+         conda config --set show_channel_urls yes &&\
+         conda install prokka
+         
+CMD ["/bin/bash"]

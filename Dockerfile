@@ -1,7 +1,8 @@
 # Standalone antiSMASH build without databases
 # VERSION 0.0.4
 FROM antismash/base:4.0.0
-MAINTAINER Kai Blin <kblin@biosustain.dtu.dk>
+
+MAINTAINER cheng gong <512543469@qq.com>
 
 ENV ANTISMASH_URL="https://dl.secondarymetabolites.org/releases/"
 ENV ANTISMASH_VERSION="4.0.0"
@@ -70,4 +71,18 @@ RUN conda update --all -y&&\
          conda config --set show_channel_urls yes &&\
          conda install prokka
          
-CMD ["/bin/bash"]
+#CMD ["/bin/bash"]
+
+#######panX##########
+RUN git clone https://github.com/neherlab/pan-genome-analysis.git &&\
+         cd pan-genome-analysis &&\
+         git submodule update --init &&\
+         conda env create -f panX-environment.yml
+
+#Expose port 8000 (webserver)
+EXPOSE :8000
+
+WORKDIR /pan-genome-analysis
+
+ENTRYPOINT ["source activate panX"]
+#CMD ["source activate panX"]
